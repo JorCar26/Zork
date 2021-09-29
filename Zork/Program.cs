@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Zork
 {
@@ -18,7 +19,7 @@ namespace Zork
             Console.WriteLine("Welcome to Zork!");
             Room previousRoom = null;
 
-            const string roomDescriptionsFilename = "Rooms.txt";
+            const string roomDescriptionsFilename = "Rooms.json";
             InitializedRoomDescriptions(roomDescriptionsFilename);
 
             Commands command = Commands.UNKNOWN;
@@ -103,20 +104,27 @@ namespace Zork
                 roomMap.Add(room.Name, room);
             }
 
-            string[] lines = File.ReadAllLines(roomDescriptionsFilename);
-            foreach (string line in lines)
+            string roomsJsonString = File.ReadAllText(roomDescriptionsFilename);
+            Room[] rooms = JsonConvert.DeserializeObject<Room[]>(roomsJsonString);
+            foreach (Room room in rooms)
             {
-                const string delimiter = "##";
-                const int expectedFieldCount = 2;
-
-                string[] fields = line.Split(delimiter);
-                if (fields.Length != expectedFieldCount)
-                {
-                    continue;
-                }
-                (string name, string description) = (fields[(int)Fields.Name], fields[(int)Fields.Description]);
-                roomMap[name].Description = description;
+                roomMap[room.Name].Description = room.Description;
             }
+
+           // string[] lines = File.ReadAllLines(roomDescriptionsFilename);
+            //foreach (string line in lines)
+           // {
+                //const string delimiter = "##";
+               // const int expectedFieldCount = 2;
+
+               // string[] fields = line.Split(delimiter);
+               // if (fields.Length != expectedFieldCount)
+               // {
+                //    continue;
+                //}
+                //(string name, string description) = (fields[(int)Fields.Name], fields[(int)Fields.Description]);
+               // roomMap[name].Description = description;
+            //}
 
         }
         private static readonly Room[,] Rooms = { 
