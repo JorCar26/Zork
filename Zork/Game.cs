@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
+
+
+
+namespace Zork
+{
+     class Game
+    {
+        public World World { get; private set; }
+
+        [JsonIgnore]
+        public Player Player { get; private set; }
+        [JsonIgnore]
+        private bool IsRunning { get; set; }
+
+        public Game(World world, Player player)
+        {
+            World = world;
+            Player = player;
+        }
+
+        public void Run()
+        {
+            IsRunning = true;
+            Room previousRoom = null;
+            while (IsRunning)
+            {
+                Console.WriteLine(Player.Location);
+                if (previousRoom != Player.Location)
+                {
+                   Console.WriteLine(Player.Location.Description);
+                   previousRoom = Player.Location;
+                }
+
+                Console.Write("\n> ");
+                Commands command = ToCommand(Console.ReadLine().Trim());
+
+                string outputString;
+
+                switch (command)
+                {
+                    case Commands.QUIT:
+                        outputString = "Thanks for playing!";
+                        IsRunning = false;
+                        break;
+
+                    case Commands.LOOK:
+                        outputString = (Player.Location.Description);
+                        break;
+
+                    case Commands.NORTH:
+                    case Commands.SOUTH:
+                    case Commands.EAST:
+                    case Commands.WEST:
+                        
+                        Directions direction = Enum.Parse<Directions>(command.ToString(), true);
+                        if (Player.Move(direction) == false)
+                        {
+                            outputString = "The way is shut!";
+                            
+                        }
+                        break;
+
+                    default:
+                        command = Commands.UNKNOWN;
+                        outputString = "Unknown Command.";
+                        break;
+
+                };
+            }
+        }
+
+        public static Game Load(string filename)
+        {
+            Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(filename));
+            game.Player = game.World.SpawnPlayer();
+
+            return game;
+        }
+
+        private static Commands ToCommand(string commandString) => (Enum.TryParse<Commands>(commandString, true, out Commands result) ? result : Commands.UNKNOWN);
+    }
+}
