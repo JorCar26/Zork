@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Zork_Common;
 
 namespace Zork
 {
     public class Room : IEquatable<Room>
     {
        [JsonProperty(Order = 1)]
-        public string Name { get; private set; }
+        public string Name { get; set; }
         [JsonProperty(Order = 2)]
         public string Description { get; private set; }
 
