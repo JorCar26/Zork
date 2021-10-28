@@ -8,7 +8,6 @@ namespace Zork.Builder.ViewModels
 {
     public class WorldViewModel : INotifyPropertyChanged
     {
-        private string mfilename;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
