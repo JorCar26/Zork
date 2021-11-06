@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Zork_Common;
+using System.ComponentModel;
 
 namespace Zork
 {
-    public class Room : IEquatable<Room>
+    public class Room : IEquatable<Room>, INotifyPropertyChanged
     {
-       [JsonProperty(Order = 1)]
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Room(string roomName) 
+        {
+            Name = roomName;
+        }
+
+        [JsonProperty(Order = 1)]
         public string Name { get; set; }
         [JsonProperty(Order = 2)]
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
         [JsonProperty(PropertyName = "Neighbors", Order = 3)]
         private Dictionary<Directions, string> NeighborNames { get; set; }
