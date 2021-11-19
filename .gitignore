@@ -1,3 +1,12 @@
 .vs/
 */obj
 */bin
+ZorkUnity/ZorkInUnity/ZorkInUnity.sln
+ZorkUnity/ZorkInUnity/Temp
+ZorkUnity/ZorkInUnity/Logs
+ZorkUnity/ZorkInUnity/obj
+ZorkUnity/ZorkInUnity/UserSettings
+ZorkUnity/ZorkInUnity/Assembly-CSharp.csproj
+ZorkUnity/ZorkInUnity/Library
+ZorkUnity/ZorkInUnity/.vscode
+ZorkUnity/ZorkInUnity/.vsconfig
