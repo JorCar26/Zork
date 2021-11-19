@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Zork.Builder.ViewModels
 {
-    public class GameViewModel : INotifyPropertyChanged
+    public class WorldViewModel : INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -14,17 +14,18 @@ namespace Zork.Builder.ViewModels
         public string FileName { get; set; }
 
         public BindingList<Room> Rooms { get; set; }
-        public Game Game
-        {
-            get => game;
+
+        public World World 
+        { 
             set
             {
-                if (game != value)
+                if(mWorld != value)
                 {
-                    game = value;
-                    if (game != null)
+                    mWorld = value;
+                    if(mWorld != null)
                     {
-                        Rooms = new BindingList<Room>(game.World.Rooms);
+                        Rooms = new BindingList<Room>((System.Collections.Generic.IList<Room>)mWorld.Rooms);
+
                     }
                     else
                     {
@@ -34,8 +35,7 @@ namespace Zork.Builder.ViewModels
             }
         }
 
-
-        public void SaveGame()
+        public void SaveWorld()
         {
             if (string.IsNullOrEmpty(FileName))
             {
@@ -49,9 +49,9 @@ namespace Zork.Builder.ViewModels
             using (StreamWriter streamWriter = new StreamWriter(FileName))
             using (JsonWriter jsonWriter = new JsonTextWriter(streamWriter))
             {
-                serializer.Serialize(jsonWriter, game);
+                serializer.Serialize(jsonWriter, mWorld);
             }
         }
-        private Game game;
+        private World mWorld;
     }
 }

@@ -13,7 +13,7 @@ namespace Zork.Builder
     {
         public static string AssemblyTitle = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
 
-        public GameViewModel ViewModel
+        public WorldViewModel ViewModel
         {
             get => mViewModel;
             set
@@ -21,7 +21,7 @@ namespace Zork.Builder
                 if (mViewModel != value)
                 {
                     mViewModel = value;
-                    gameViewModelBindingSource.DataSource = mViewModel;
+                    worldViewModelBindingSource.DataSource = mViewModel;
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace Zork.Builder
         public Main()
         {
             InitializeComponent();
-            ViewModel = new GameViewModel();
+            ViewModel = new WorldViewModel();
             IsWorldLoaded = false;
         }
 
@@ -51,12 +51,11 @@ namespace Zork.Builder
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ViewModel.Game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(openFileDialog.FileName));
-                ViewModel.FileName = openFileDialog.FileName;
+                ViewModel.World = JsonConvert.DeserializeObject<World>(File.ReadAllText(openFileDialog.FileName));
                 IsWorldLoaded = true;
             }
         }
-        private GameViewModel mViewModel;
+        private WorldViewModel mViewModel;
         private bool isWorldLoaded;
 
         private void AddRoomButton_Click(object sender, EventArgs e)
@@ -65,7 +64,7 @@ namespace Zork.Builder
             {
                 if (addRoomForm.ShowDialog() == DialogResult.OK)
                 {
-                    Room room = new Room ( Name = addRoomForm.RoomName );
+                    Room room = new Room { Name = addRoomForm.RoomName };
                     ViewModel.Rooms.Add(room);
                 }
             }
@@ -95,13 +94,13 @@ namespace Zork.Builder
             if ( saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 ViewModel.FileName = saveFileDialog.FileName;
-                ViewModel.SaveGame();
+                ViewModel.SaveWorld();
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewModel.SaveGame();
+            ViewModel.SaveWorld();
         }
 
     }
