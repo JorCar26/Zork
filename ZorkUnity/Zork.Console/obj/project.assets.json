@@ -150,11 +150,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\davis\\Desktop\\ZorkUnity\\Zork.Console\\Zork.Console.csproj",
+      "projectUniqueName": "C:\\Users\\davis\\Documents\\GitHub\\Zork\\ZorkUnity\\Zork.Console\\Zork.Console.csproj",
       "projectName": "Zork.Console",
-      "projectPath": "C:\\Users\\davis\\Desktop\\ZorkUnity\\Zork.Console\\Zork.Console.csproj",
+      "projectPath": "C:\\Users\\davis\\Documents\\GitHub\\Zork\\ZorkUnity\\Zork.Console\\Zork.Console.csproj",
       "packagesPath": "C:\\Users\\davis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\davis\\Desktop\\ZorkUnity\\Zork.Console\\obj\\",
+      "outputPath": "C:\\Users\\davis\\Documents\\GitHub\\Zork\\ZorkUnity\\Zork.Console\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\davis\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -171,8 +171,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\davis\\Desktop\\ZorkUnity\\Zork.Common\\Zork.Common.csproj": {
-              "projectPath": "C:\\Users\\davis\\Desktop\\ZorkUnity\\Zork.Common\\Zork.Common.csproj"
+            "C:\\Users\\davis\\Documents\\GitHub\\Zork\\ZorkUnity\\Zork.Common\\Zork.Common.csproj": {
+              "projectPath": "C:\\Users\\davis\\Documents\\GitHub\\Zork\\ZorkUnity\\Zork.Common\\Zork.Common.csproj"
             }
           }
         }
