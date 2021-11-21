@@ -14,7 +14,7 @@ public class UnityInputService : MonoBehaviour, IInputService
     {
         if (Input.GetKey(KeyCode.Return))
         {
-            string inputString = InputField.text;
+            string inputString = InputField.text.Trim().ToUpper();
             if (string.IsNullOrWhiteSpace(inputString) == false)
             {
                 InputRecieved?.Invoke(this, inputString);

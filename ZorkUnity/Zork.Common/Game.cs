@@ -19,6 +19,7 @@ namespace Zork
         public string WelcomeMessage { get; set; }
         
         public string ExitMessage { get; set; }
+        [JsonIgnore]
         public int Moves = 0;
         [JsonIgnore]
         public Player Player { get; private set; }
@@ -68,14 +69,7 @@ namespace Zork
         private void InputReceivedHandler(object sender, string inputString)
         {
 
-            Room previousRoom = Player.Location;
-            
-                if (previousRoom != Player.Location)
-                {
-                    Look(this);
-                    previousRoom = Player.Location;
-                }
-
+            Room previousRoom = null;
             string commandString = inputString;
                 Command foundCommand = null;
                 foreach (Command command in Commands.Values)
@@ -83,16 +77,17 @@ namespace Zork
                     if (command.Verbs.Contains(commandString))
                     {
                         foundCommand = command;
-                        break;
+                    Moves++;
+                    break;
                     }
                 }
 
                 if (foundCommand != null)
                 {
-                    Moves++;
-                
+                                    
                     foundCommand.Action(this);
-                        if (previousRoom != Player.Location)
+                    Game.Instance.Output.WriteLine(Game.Instance.Player.Location);
+                    if (previousRoom != Player.Location)
                             {
                                 Look(this);
                                 previousRoom = Player.Location;
@@ -103,8 +98,6 @@ namespace Zork
                     Output.WriteLine("Unknown command.");
                 }
             
-
-            Output.WriteLine(string.IsNullOrWhiteSpace(ExitMessage) ? "Thank you for playing!" : ExitMessage);
         }
 
         public static Game Load(string jsonString)
@@ -125,10 +118,18 @@ namespace Zork
 
         public static void Look(Game game) => Instance.Output.WriteLine(game.Player.Location.Description);
 
-        private static void Quit(Game game) => game.IsRunning = false;
+        private void Quit(Game game)
+        {
+            DisplayExitMessage();
+            game.IsRunning = false;
+        }
         private void DisplayWelcomeMessage()
         {
             Output.WriteLine(WelcomeMessage);
+        }
+        private void DisplayExitMessage()
+        {
+            Output.WriteLine(ExitMessage);
         }
 
         [OnDeserialized]
