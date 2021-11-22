@@ -22,6 +22,14 @@ namespace Zork
         [JsonIgnore]
         public int Moves = 0;
         [JsonIgnore]
+        public int Score = 0;
+        [JsonIgnore]
+        public bool RewardisCalled;
+        [JsonIgnore]
+        public bool MoveIncremented;
+        [JsonIgnore]
+        public bool differentRoom;
+        [JsonIgnore]
         public Player Player { get; private set; }
         [JsonIgnore]
         public static Game Instance { get; private set; }
@@ -45,6 +53,7 @@ namespace Zork
             {
                 { "QUIT", new Command("QUIT", new string[] { "QUIT", "Q", "BYE" }, Quit) },
                 { "LOOK", new Command("LOOK", new string[] { "LOOK", "L" }, Look) },
+                { "REWARD", new Command("REWARD", new string[] { "REWARD", "R" }, Reward) },
                 { "NORTH", new Command("NORTH", new string[] { "NORTH", "N" }, game => Move(game, Directions.North)) },
                 { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.South)) },
                 { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.East)) },
@@ -63,6 +72,7 @@ namespace Zork
             Instance.Output = output;
             Instance.DisplayWelcomeMessage();
             Instance.IsRunning = true;
+            Instance.Score = 0;
             Instance.Input.InputRecieved += Instance.InputReceivedHandler;
         }
 
@@ -78,6 +88,7 @@ namespace Zork
                     {
                         foundCommand = command;
                     Moves++;
+                    MoveIncremented = true;
                     break;
                     }
                 }
@@ -90,8 +101,13 @@ namespace Zork
                     if (previousRoom != Player.Location)
                             {
                                 Look(this);
+                                differentRoom = true;
                                 previousRoom = Player.Location;
                             }
+                if ( RewardisCalled == true)
+                {
+                    Output.WriteLine("You have found gold worth 5 points.");
+                }
                 }
                 else
                 {
@@ -114,6 +130,11 @@ namespace Zork
             {
                 Instance.Output.WriteLine("The way is shut!");
             }
+        }
+        public void Reward(Game game)
+        {
+            Instance.Score += 5;
+            RewardisCalled = true;
         }
 
         public static void Look(Game game) => Instance.Output.WriteLine(game.Player.Location.Description);

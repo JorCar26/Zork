@@ -22,8 +22,23 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         LocationText.text = Game.Instance.Player.Location.ToString();
-        //ScoreText.text = Game.Instance.Score.ToString();
+        ScoreText.text = Game.Instance.Score.ToString();
         MovesText.text = Game.Instance.Moves.ToString();
+    }
+    private void Update()
+    {
+        if (Game.Instance.RewardisCalled == true)
+        {
+            ScoreText.text = Game.Instance.Score.ToString();
+        }
+        if (Game.Instance.MoveIncremented == true)
+        {
+            MovesText.text = Game.Instance.Moves.ToString();
+        }
+        if (Game.Instance.differentRoom == true)
+        {
+            LocationText.text = Game.Instance.Player.Location.ToString();
+        }
     }
 
     [SerializeField]
